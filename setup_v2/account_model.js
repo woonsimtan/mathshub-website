@@ -30,20 +30,22 @@ const getAccounts = () => {
       })
     })
   }
-  const deleteAccount = () => {
-    return new Promise(function(resolve, reject) {
-      const id = parseInt(request.params.id)
-      pool.query('DELETE FROM accounts WHERE id = $1', [id], (error, results) => {
-        if (error) {
-          reject(error)
-        }
-        resolve(`Account deleted with ID: ${id}`)
-      })
-    })
-  }
+
+  // not functioning
+  // const deleteAccount = () => {
+  //   return new Promise(function(resolve, reject) {
+  //     const id = parseInt(request.params.id)
+  //     pool.query('DELETE FROM accounts WHERE id = $1', [id], (error, results) => {
+  //       if (error) {
+  //         reject(error)
+  //       }
+  //       resolve(`Account deleted with ID: ${id}`)
+  //     })
+  //   })
+  // }
   
   module.exports = {
     getAccounts,
     createAccount,
-    deleteAccount,
+    // deleteAccount,
   }

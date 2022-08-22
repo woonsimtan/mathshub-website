@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-// import { getAccounts } from '../../account_model';
+
 function App() {
   const [accounts, setAccounts] = useState(false);
   useEffect(() => {
@@ -35,26 +35,28 @@ function App() {
         getAccounts();
       });
   }
-  function deleteAccount() {
-    let id = prompt('Enter account id');
-    fetch(`http://localhost:3001/accounts/${id}`, {
-      method: 'DELETE',
-    })
-      .then(response => {
-        return response.text();
-      })
-      .then(data => {
-        alert(data);
-        getAccounts();
-      });
-  }
+
+// commented because not functioning
+//   function deleteAccount() {
+//     let id = prompt('Enter account id');
+//     fetch(`http://localhost:3001/accounts/${id}`, {
+//       method: 'DELETE',
+//     })
+//       .then(response => {
+//         return response.text();
+//       })
+//       .then(data => {
+//         alert(data);
+//         getAccounts();
+//       });
+//   }
   return (
     <div>
       {accounts ? accounts : 'There is no account data available'}
       <br />
       <button onClick={createAccount}>Add account</button>
-      <br />
-      <button onClick={deleteAccount}>Delete account</button>
+      {/* <br />
+      <button onClick={deleteAccount}>Delete account</button> */}
     </div>
   );
 }
