@@ -2,7 +2,7 @@
 
 -- Run Commands --\
 **backend:** \
-npm run server\
+node index.js\
 **react:** \
 cd client \
 npm start
