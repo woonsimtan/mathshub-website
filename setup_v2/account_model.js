@@ -34,21 +34,20 @@ const createAccount = (body) => {
   });
 };
 
-// not functioning
-// const deleteAccount = () => {
-//   return new Promise(function(resolve, reject) {
-//     const id = parseInt(request.params.id)
-//     pool.query('DELETE FROM accounts WHERE id = $1', [id], (error, results) => {
-//       if (error) {
-//         reject(error)
-//       }
-//       resolve(`Account deleted with ID: ${id}`)
-//     })
-//   })
-// }
+const deleteAccount = (body) => {
+  return new Promise(function(resolve, reject) {
+    const username = body;
+    pool.query('DELETE FROM accounts WHERE username = $1', [username], (error, results) => {
+      if (error) {
+        reject(error);
+      }
+      resolve(`Account deleted with username: ${username}`);
+    });
+  });
+};
 
 module.exports = {
   getAccounts,
   createAccount,
-  // deleteAccount,
+  deleteAccount,
 };

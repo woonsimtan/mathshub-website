@@ -1,4 +1,3 @@
-
 import React, {useState, useEffect} from 'react';
 
 const Home = () =>{
@@ -39,19 +38,19 @@ const Home = () =>{
   }
 
 // commented because not functioning
-//   function deleteAccount() {
-//     let id = prompt('Enter account id');
-//     fetch(`http://localhost:3001/accounts/${id}`, {
-//       method: 'DELETE',
-//     })
-//       .then(response => {
-//         return response.text();
-//       })
-//       .then(data => {
-//         alert(data);
-//         getAccounts();
-//       });
-//   }
+  function deleteAccount() {
+    let username = prompt('Enter account username');
+    fetch(`http://localhost:3001/accounts/${username}`, {
+      method: 'DELETE',
+    })
+      .then(response => {
+        return response.text();
+      })
+      .then(data => {
+        alert(data);
+        getAccounts();
+      });
+  }
 
   return (
     <div>
@@ -59,8 +58,8 @@ const Home = () =>{
       {accounts ? accounts : 'There is no account data available'}
       <br />
       <button onClick={createAccount}>Add account</button>
-      {/* <br />
-      <button onClick={deleteAccount}>Delete account</button> */}
+      <br />
+      <button onClick={deleteAccount}>Delete account</button>
     </div>
   );
 }
