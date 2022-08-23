@@ -13,7 +13,7 @@ app.use(function(req, res, next) {
   next();
 });
 
-app.get('/', (req, res) => {
+app.get('/accounts', (req, res) => {
   accountModel.getAccounts()
       .then((response) => {
         res.status(200).send(response);
@@ -23,7 +23,7 @@ app.get('/', (req, res) => {
       });
 });
 
-app.post('/accounts', (req, res) => {
+app.post('/accounts/create', (req, res) => {
   accountModel.createAccount(req.body)
       .then((response) => {
         res.status(200).send(response);
@@ -33,7 +33,7 @@ app.post('/accounts', (req, res) => {
       });
 });
 
-app.delete('/accounts/:username', (req, res) => {
+app.delete('/accounts/del/:username', (req, res) => {
   accountModel.deleteAccount(req.params.username)
       .then((response) => {
         res.status(200).send(response);
@@ -43,7 +43,7 @@ app.delete('/accounts/:username', (req, res) => {
       });
 });
 
-app.get('/studentdata', (req, res) => {
+app.get('/students', (req, res) => {
   accountModel.getStudents()
       .then((response) => {
         res.status(200).send(response);
@@ -53,7 +53,7 @@ app.get('/studentdata', (req, res) => {
       });
 });
 
-app.post('/students', (req, res) => {
+app.post('/students/create', (req, res) => {
   accountModel.createStudent(req.body)
       .then((response) => {
         res.status(200).send(response);
@@ -63,7 +63,7 @@ app.post('/students', (req, res) => {
       });
 });
 
-app.delete('/students/:username', (req, res) => {
+app.delete('/students/del/:username', (req, res) => {
   accountModel.deleteStudent(req.params.username)
       .then((response) => {
         res.status(200).send(response);

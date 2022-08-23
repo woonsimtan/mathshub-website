@@ -13,7 +13,7 @@ const Home = () =>{
   }, []);
 
   function getAccounts() {
-    fetch('http://localhost:3001/')
+    fetch('http://localhost:3001/accounts')
       .then(response => {
         return response.text();
       })
@@ -26,7 +26,7 @@ const Home = () =>{
     let username = prompt('Enter username');
     let password = prompt('Enter password');
     let role = prompt('Enter role');
-    fetch('http://localhost:3001/accounts', {
+    fetch('http://localhost:3001/accounts/create', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -44,7 +44,7 @@ const Home = () =>{
 
   function deleteAccount() {
     let username = prompt('Enter account username');
-    fetch(`http://localhost:3001/accounts/${username}`, {
+    fetch(`http://localhost:3001/accounts/del/${username}`, {
       method: 'DELETE',
     })
       .then(response => {
@@ -57,7 +57,7 @@ const Home = () =>{
   }
 
   function getStudents() {
-    fetch('http://localhost:3001/studentdata')
+    fetch('http://localhost:3001/students')
       .then(response => {
         return response.text();
       })
@@ -71,7 +71,7 @@ const Home = () =>{
     let year_group = prompt('Enter year group');
     let key_stage = prompt('Enter key_stage');
     let tutor = prompt('Enter tutor');
-    fetch('http://localhost:3001/students', {
+    fetch('http://localhost:3001/students/create', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -89,7 +89,7 @@ const Home = () =>{
 
   function deleteStudent() {
     let username = prompt('Enter student username');
-    fetch(`http://localhost:3001/students/${username}`, {
+    fetch(`http://localhost:3001/students/del/${username}`, {
       method: 'DELETE',
     })
       .then(response => {
@@ -109,6 +109,7 @@ const Home = () =>{
       <button onClick={createAccount}>Add account</button>
       <br />
       <button onClick={deleteAccount}>Delete account</button>
+      <br />
       {students ? students : 'There is no student data available'}
       <br />
       <button onClick={createStudent}>Add student</button>
