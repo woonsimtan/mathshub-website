@@ -17,4 +17,4 @@ npx eslint . for a preview
 accounts - CREATE TABLE accounts( id SERIAL PRIMARY KEY, username VARCHAR(260), password VARCHAR(260), year_group INT, key_stage INT, tutor VARCHAR(260) );  \
 accounts - CREATE TABLE accounts(id SERIAL PRIMARY KEY, username VARCHAR(30), password VARCHAR(30));\
 student - CREATE TABLE student(id SERIAL PRIMARY KEY, username VARCHAR(30), year_group INT, key_stage INT, tutor VARCHAR(30)); \
-attendance - CREATE TABLE attendance (id SERIAL PRIMARY KEY, username VARCHAR(30), date DATE, attended CHAR(), comment VARCHAR(250));
+attendance - CREATE TABLE attendance (id SERIAL PRIMARY KEY, username VARCHAR(30), date DATE, attended VARCHAR(1), comment VARCHAR(250));
