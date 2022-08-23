@@ -18,15 +18,13 @@ const Home = () =>{
   function createAccount() {
     let username = prompt('Enter username');
     let password = prompt('Enter password');
-    let year_group = prompt('Enter year_group');
-    let key_stage = prompt('key_stage');
-    let tutor = prompt('tutor');
+    let role = prompt('Enter role');
     fetch('http://localhost:3001/accounts', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({username, password, year_group, key_stage, tutor}),
+      body: JSON.stringify({username, password, role}),
     })
       .then(response => {
         return response.text();
@@ -37,7 +35,6 @@ const Home = () =>{
       });
   }
 
-// commented because not functioning
   function deleteAccount() {
     let username = prompt('Enter account username');
     fetch(`http://localhost:3001/accounts/${username}`, {

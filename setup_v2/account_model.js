@@ -21,15 +21,15 @@ const getAccounts = () => {
 };
 const createAccount = (body) => {
   return new Promise(function(resolve, reject) {
-    const {username, password, yearGroup, keyStage, tutor} = body;
+    const {username, password, role} = body;
     pool.query(
-        'INSERT INTO accounts (username, password, year_group, key_stage, tutor)'+
-        'VALUES ($1, $2, $3, $4, $5) RETURNING *',
-        [username, password, yearGroup, keyStage, tutor], (error, results) => {
+        'INSERT INTO accounts (username, password, role)'+
+        'VALUES ($1, $2, $3) RETURNING *',
+        [username, password, role], (error, results) => {
           if (error) {
             reject(error);
           }
-          resolve(`A new account has been added added: ${results.rows[0]}`);
+          resolve(`A new account has been added: ${results.rows[0]}`);
         });
   });
 };
