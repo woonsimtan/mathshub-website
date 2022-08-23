@@ -2,7 +2,7 @@
 
 -- Run Commands --\
 **backend:** \
-node index.js\
+node index.js
 
 **react:** \
 cd client \
