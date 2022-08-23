@@ -9,4 +9,5 @@ cd client \
 npm start
 
 **eslint:** \
-npx eslint yourfile.js
+npx eslint yourfile.js \
+npx eslint --fix .
