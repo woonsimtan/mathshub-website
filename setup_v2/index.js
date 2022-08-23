@@ -34,8 +34,8 @@ app.post('/accounts', (req, res) => {
 });
 
 // not functioning
-app.delete('/accounts/:id', (req, res) => {
-  accountModel.deleteAccount(req.params.id)
+app.delete('/accounts/:username', (req, res) => {
+  accountModel.deleteAccount(req.params.username)
       .then((response) => {
         res.status(200).send(response);
       })

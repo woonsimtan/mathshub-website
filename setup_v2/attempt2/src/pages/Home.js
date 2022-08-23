@@ -39,8 +39,8 @@ const Home = () =>{
 
 // commented because not functioning
   function deleteAccount() {
-    let id = prompt('Enter account id');
-    fetch(`http://localhost:3001/accounts/${id}`, {
+    let username = prompt('Enter account username');
+    fetch(`http://localhost:3001/accounts/${username}`, {
       method: 'DELETE',
     })
       .then(response => {
