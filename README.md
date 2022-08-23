@@ -10,4 +10,5 @@ npm start
 
 **eslint:** \
 npx eslint yourfile.js \
-npx eslint --fix .
+npx eslint --fix .\
+npx eslint . for a preview
