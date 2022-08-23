@@ -5,7 +5,8 @@
     "node": true
     },
   "extends": [
-    "plugin:react/recommended",
+    "eslint:recommended",
+    "plugin:react/jsx-runtime",
     "google"
   ],
   "parser": "@typescript-eslint/parser",
