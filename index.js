@@ -42,6 +42,37 @@ app.delete('/accounts/:username', (req, res) => {
         res.status(500).send(error);
       });
 });
+
+app.get('/studentdata', (req, res) => {
+  accountModel.getStudents()
+      .then((response) => {
+        res.status(200).send(response);
+      })
+      .catch((error) => {
+        res.status(500).send(error);
+      });
+});
+
+app.post('/students', (req, res) => {
+  accountModel.createStudent(req.body)
+      .then((response) => {
+        res.status(200).send(response);
+      })
+      .catch((error) => {
+        res.status(500).send(error);
+      });
+});
+
+app.delete('/students/:username', (req, res) => {
+  accountModel.deleteStudent(req.params.username)
+      .then((response) => {
+        res.status(200).send(response);
+      })
+      .catch((error) => {
+        res.status(500).send(error);
+      });
+});
+
 app.listen(port, () => {
   console.log(`App running on port ${port}.`);
 });

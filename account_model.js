@@ -19,6 +19,7 @@ const getAccounts = () => {
     });
   });
 };
+
 const createAccount = (body) => {
   return new Promise(function(resolve, reject) {
     const {username, password, role} = body;
@@ -46,8 +47,49 @@ const deleteAccount = (body) => {
   });
 };
 
+const getStudents = () => {
+  return new Promise(function(resolve, reject) {
+    pool.query('SELECT * FROM students ORDER BY id ASC', (error, results) => {
+      if (error) {
+        reject(error);
+      }
+      resolve(results.rows);
+    });
+  });
+};
+
+const createStudent = (body) => {
+  return new Promise(function(resolve, reject) {
+    const {username, year_group, key_stage, tutor} = body;
+    pool.query(
+        'INSERT INTO students (username, year_group, key_stage, tutor)'+
+        'VALUES ($1, $2, $3, $4) RETURNING *',
+        [username, year_group, key_stage, tutor], (error, results) => {
+          if (error) {
+            reject(error);
+          }
+          resolve(`A new student has been added: ${results.rows[0]}`);
+        });
+  });
+};
+
+const deleteStudent = (body) => {
+  return new Promise(function(resolve, reject) {
+    const username = body;
+    pool.query('DELETE FROM students WHERE username = $1', [username], (error, results) => {
+      if (error) {
+        reject(error);
+      }
+      resolve(`Student deleted with username: ${username}`);
+    });
+  });
+};
+
 module.exports = {
   getAccounts,
   createAccount,
   deleteAccount,
+  getStudents,
+  createStudent,
+  deleteStudent
 };
