@@ -60,7 +60,17 @@ const getStudents = () => {
 
 const createStudent = (body) => {
   return new Promise(function(resolve, reject) {
-    const {username, year_group, key_stage, tutor} = body;
+    const {username, password, year_group, key_stage, tutor} = body;
+    const role = 'student';
+    pool.query(
+      'INSERT INTO accounts (username, password, role)'+
+      'VALUES ($1, $2, $3) RETURNING *',
+      [username, password, role], (error, results) => {
+        if (error) {
+          console.log(error);
+        }
+        console.log(`A new account has been added: ${results.rows[0]}`);
+      });
     pool.query(
         'INSERT INTO students (username, year_group, key_stage, tutor)'+
         'VALUES ($1, $2, $3, $4) RETURNING *',

@@ -68,6 +68,7 @@ const Home = () =>{
   
   function createStudent() {
     let username = prompt('Enter username');
+    let password = prompt('Enter password');
     let year_group = prompt('Enter year group');
     let key_stage = prompt('Enter key_stage');
     let tutor = prompt('Enter tutor');
@@ -76,13 +77,14 @@ const Home = () =>{
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({username, year_group, key_stage, tutor}),
+      body: JSON.stringify({username, password, year_group, key_stage, tutor}),
     })
       .then(response => {
         return response.text();
       })
       .then(data => {
         alert(data);
+        getAccounts();
         getStudents();
       });
   }
