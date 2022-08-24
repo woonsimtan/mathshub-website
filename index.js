@@ -3,6 +3,7 @@ const app = express();
 const port = 3001;
 
 const accountModel = require('./account_model');
+const attendanceModel = require('./attendance_model');
 
 app.use(express.json());
 app.use(function(req, res, next) {
@@ -72,6 +73,27 @@ app.delete('/students/del/:username', (req, res) => {
         res.status(500).send(error);
       });
 });
+
+app.get('/attendance', (req, res) => {
+  attendanceModel.getAttendances()
+  .then(response => {
+    res.status(200).send(response);
+  })
+  .catch(error => {
+    res.status(500).send(error);
+  })
+})
+
+app.post('/attendanceadd', (req, res) => {
+  attendanceModel.createAttendance(req.body)
+  .then(response => {
+    res.status(200).send(response);
+  })
+  .catch(error => {
+    res.status(500).send(error);
+  })
+})
+
 
 app.listen(port, () => {
   console.log(`App running on port ${port}.`);
