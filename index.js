@@ -13,7 +13,7 @@ app.use(function(req, res, next) {
   next();
 });
 
-app.get('/', (req, res) => {
+app.get('/accounts', (req, res) => {
   accountModel.getAccounts()
       .then((response) => {
         res.status(200).send(response);
@@ -23,7 +23,7 @@ app.get('/', (req, res) => {
       });
 });
 
-app.post('/accounts', (req, res) => {
+app.post('/accounts/create', (req, res) => {
   accountModel.createAccount(req.body)
       .then((response) => {
         res.status(200).send(response);
@@ -33,7 +33,7 @@ app.post('/accounts', (req, res) => {
       });
 });
 
-app.delete('/accounts/:username', (req, res) => {
+app.delete('/accounts/del/:username', (req, res) => {
   accountModel.deleteAccount(req.params.username)
       .then((response) => {
         res.status(200).send(response);
@@ -42,6 +42,37 @@ app.delete('/accounts/:username', (req, res) => {
         res.status(500).send(error);
       });
 });
+
+app.get('/students', (req, res) => {
+  accountModel.getStudents()
+      .then((response) => {
+        res.status(200).send(response);
+      })
+      .catch((error) => {
+        res.status(500).send(error);
+      });
+});
+
+app.post('/students/create', (req, res) => {
+  accountModel.createStudent(req.body)
+      .then((response) => {
+        res.status(200).send(response);
+      })
+      .catch((error) => {
+        res.status(500).send(error);
+      });
+});
+
+app.delete('/students/del/:username', (req, res) => {
+  accountModel.deleteStudent(req.params.username)
+      .then((response) => {
+        res.status(200).send(response);
+      })
+      .catch((error) => {
+        res.status(500).send(error);
+      });
+});
+
 app.listen(port, () => {
   console.log(`App running on port ${port}.`);
 });
