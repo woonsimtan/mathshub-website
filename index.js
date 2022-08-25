@@ -1,4 +1,6 @@
 const express = require('express');
+const path = require('path');
+
 const app = express();
 const port = 3001;
 
@@ -72,6 +74,17 @@ app.delete('/students/del/:username', (req, res) => {
         res.status(500).send(error);
       });
 });
+
+app.post('/login', (req, res) => {
+  accountModel.accountLogin(req.body)
+      .then((response) => {
+        res.status(200).send(response);
+      })
+      .catch((error) => {
+        res.status(500).send(error);
+      });
+});
+
 
 app.listen(port, () => {
   console.log(`App running on port ${port}.`);

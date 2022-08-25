@@ -95,11 +95,36 @@ const deleteStudent = (body) => {
   });
 };
 
+const accountLogin = (body) => {
+  return new Promise(function(resolve, reject) {
+    const {username, password} = body;
+    if (username && password) {
+      pool.query(
+          'SELECT * FROM accounts WHERE (username = $1) AND (password = $2)',
+          [username, password], (error, results) => {
+            if (error) {
+              reject(error);
+            }
+            if (results.rowCount > 0) {
+              resolve(`Logged in successfully!`);
+            } else {
+              resolve(`Invalid login details`);
+            }
+          });
+    } else {
+      resolve('Please try again');
+    }
+  });
+};
+
+
+
 module.exports = {
   getAccounts,
   createAccount,
   deleteAccount,
   getStudents,
   createStudent,
-  deleteStudent
+  deleteStudent,
+  accountLogin
 };
