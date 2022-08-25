@@ -105,7 +105,6 @@ const accountLogin = (body) => {
             if (error) {
               reject(error);
             }
-            console.log(results);
             if (results.rowCount > 0) {
               resolve(`Logged in successfully!`);
             } else {

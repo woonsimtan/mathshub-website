@@ -16,7 +16,11 @@ const Login = () =>{
         return response.text();
       })
       .then(data => {
-        alert(data);
+        if (data === 'Logged in successfully!') {
+          window.location = '/about';
+        } else {
+          alert(data);
+        }
       });
   }
 
