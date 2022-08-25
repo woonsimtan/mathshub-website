@@ -5,11 +5,13 @@ import Navbar from './components/navbar';
 import About from "./pages/About"
 import Home from "./pages/Home"
 import Login from "./pages/Login"
+import Header from './components/header';
 
 function App() {
   
   return (
     <div>
+    <Header/>
 
     <Router>
         <Navbar />
