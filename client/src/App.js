@@ -4,6 +4,7 @@ import Navbar from './components/navbar';
 import About from "./pages/About"
 import Home from "./pages/Home"
 import Login from "./pages/Login"
+import StudentProfile from './pages/StudentProfile';
 
 function App() {
   
@@ -16,6 +17,7 @@ function App() {
             <Route path='/' element={<Home/>} />
             <Route path='/about' element={<About/>} />
             <Route path='/login' element={<Login/>} />
+            <Route path='/studentprofile' element={<StudentProfile/>} />
         </Routes>
         </Router>
 
