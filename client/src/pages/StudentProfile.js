@@ -17,7 +17,11 @@ const StudentProfile = () =>{
       .then(data => {
         if (data !== 'no results') {
           alert('student found!');
-          document.getElementById("studentdata").innerHTML = data;
+          const profile = data.slice(1, -1).replaceAll('"', "").split(',');
+          document.getElementById("username").innerHTML = "username:" + profile[0];
+          document.getElementById("yeargroup").innerHTML = "year group:" + profile[1];
+          document.getElementById("keystage").innerHTML = "key stage:" + profile[2];
+          document.getElementById("tutor").innerHTML = "tutor:" + profile[3];
         } else {
           alert(data);
         }
@@ -31,7 +35,10 @@ const StudentProfile = () =>{
       <br />
       <button onClick={getStudentProfile}>Get student profile</button>
       <br />
-      <p id="studentdata"></p>
+      <p id="username"></p>
+      <p id="yeargroup"></p>
+      <p id="keystage"></p>
+      <p id="tutor"></p>
     </div>
     
   );
