@@ -85,6 +85,16 @@ app.post('/login', (req, res) => {
       });
 });
 
+app.post('/studentprofile', (req, res) => {
+  accountModel.getStudentProfile(req.body)
+      .then((response) => {
+        res.status(200).send(response);
+      })
+      .catch((error) => {
+        res.status(500).send(error);
+      });
+});
+
 
 app.listen(port, () => {
   console.log(`App running on port ${port}.`);

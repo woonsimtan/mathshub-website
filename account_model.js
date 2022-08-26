@@ -117,6 +117,24 @@ const accountLogin = (body) => {
   });
 };
 
+const getStudentProfile = (body) => {
+  return new Promise(function(resolve, reject) {
+    const {username} = body;
+    pool.query('SELECT * FROM students WHERE (username = $1)', [username], (error, results) => {
+      if (error) {
+        reject(error);
+      }
+      if (results.rowCount > 0) {
+        const data = [results.rows[0]["username"], results.rows[0]["year_group"], 
+          results.rows[0]["key_stage"], results.rows[0]["tutor"]];
+        resolve(data);
+      } else {
+        resolve('no results');
+      }
+    });
+  });
+};
+
 
 
 module.exports = {
@@ -126,5 +144,6 @@ module.exports = {
   getStudents,
   createStudent,
   deleteStudent,
-  accountLogin
+  accountLogin,
+  getStudentProfile
 };
