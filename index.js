@@ -1,8 +1,10 @@
 const express = require('express');
 const path = require('path');
+const cors = require('cors');
 
 const app = express();
 const port = 3001;
+app.use(cors());
 
 const accountModel = require('./account_model');
 
@@ -75,14 +77,10 @@ app.delete('/students/del/:username', (req, res) => {
       });
 });
 
-app.post('/login', (req, res) => {
-  accountModel.accountLogin(req.body)
-      .then((response) => {
-        res.status(200).send(response);
-      })
-      .catch((error) => {
-        res.status(500).send(error);
-      });
+app.use('/login', (req, res) => {
+  res.send({
+    token: 'test123'
+  });
 });
 
 app.post('/studentprofile', (req, res) => {
