@@ -11,7 +11,7 @@ const pool = new Pool({
 
 const getAttendances = () => {
     return new Promise(function(resolve, reject) {
-      pool.query('SELECT * FROM attendance ORDER BY id ASC', (error, results) => {
+      pool.query('SELECT * FROM attendance ORDER BY username ASC', (error, results) => {
         if (error) {
           reject(error)
         }

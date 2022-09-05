@@ -43,7 +43,9 @@ const Attendance = () =>{
        <button onClick={createAttendance}>Add attendance</button>
 
        <br /> 
-       <AttendanceTable></AttendanceTable>
+
+       {attendances ? <AttendanceTable/>: "I'm sorry all your efforts have gone to waste :'("}
+
 
      
     </div>
