@@ -4,12 +4,21 @@ import Footer from './components/footer';
 import Navbar from './components/navbar';
 import About from "./pages/About"
 import Home from "./pages/Home"
-import Login from "./pages/Login"
+// import Login from "./pages/Login"
 import StudentProfile from './pages/StudentProfile';
 import Header from './components/header';
+import Login from './components/Login/Login';
+import useToken from './components/useToken';
+
+
 
 function App() {
-  
+
+  const { token, setToken } = useToken();
+
+  if(!token) {
+    return <Login setToken={setToken} />
+  }
   return (
     <div>
     <Header/>
