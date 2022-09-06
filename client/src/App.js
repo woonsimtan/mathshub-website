@@ -4,7 +4,6 @@ import Footer from './components/footer';
 import Navbar from './components/navbar';
 import About from "./pages/About"
 import Home from "./pages/Home"
-// import Login from "./pages/Login"
 import StudentProfile from './pages/StudentProfile';
 import Header from './components/header';
 import Login from './components/Login/Login';
