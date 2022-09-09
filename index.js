@@ -95,12 +95,11 @@ app.delete('/students/del/:username', (req, res) => {
 app.use('/login', (req, res) => {
   accountModel.accountLogin(req.body)
       .then((response) => {
-        console.log(response);
-        if (response === `Logged in successfully!`) {
-          const {accountUsername, accountPassword} = req.body;
+        if (response === "Logged in successfully!") {
           res.send({
+            // need to change this
             token: 'test123',
-            username: accountUsername
+            username: req.body['username']
           });
         } else {
           res.status(500).send(response);

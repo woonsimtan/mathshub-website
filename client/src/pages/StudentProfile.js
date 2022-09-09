@@ -3,7 +3,7 @@ import React from 'react';
 const StudentProfile = () =>{
 
   function getStudentProfile() {
-    let username = prompt('Enter username');
+    let username = JSON.parse(sessionStorage.getItem('token')).username;
     fetch('http://localhost:3001/studentprofile', {
       method: 'POST',
       headers: {
@@ -16,7 +16,7 @@ const StudentProfile = () =>{
       })
       .then(data => {
         if (data !== 'no results') {
-          alert('student found!');
+          // alert('student found!');
           const profile = data.slice(1, -1).replaceAll('"', "").split(',');
           document.getElementById("username").innerHTML = "username:" + profile[0];
           document.getElementById("yeargroup").innerHTML = "year group:" + profile[1];
