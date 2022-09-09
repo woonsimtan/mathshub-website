@@ -93,9 +93,24 @@ app.delete('/students/del/:username', (req, res) => {
 
 
 app.use('/login', (req, res) => {
-  res.send({
-    token: 'test123'
-  });
+  accountModel.accountLogin(req.body)
+      .then((response) => {
+        console.log(response);
+        if (response === `Logged in successfully!`) {
+          const {accountUsername, accountPassword} = req.body;
+          res.send({
+            token: 'test123',
+            username: accountUsername
+          });
+        } else {
+          res.status(500).send(response);
+        }
+        
+      })
+      .catch((error) => {
+        res.status(500).send(error);
+      });
+  
 });
 
 

@@ -4,6 +4,7 @@ import Footer from './components/footer';
 import Navbar from './components/navbar';
 import About from "./pages/About"
 import Home from "./pages/Home"
+import Accounts from "./pages/Accounts"
 import StudentProfile from './pages/StudentProfile';
 import Header from './components/header';
 import Login from './components/Login/Login';
@@ -15,9 +16,6 @@ function App() {
 
   const { token, setToken } = useToken();
 
-  if(!token) {
-    return <Login setToken={setToken} />
-  }
   return (
     <div>
     <Header/>
@@ -32,7 +30,8 @@ function App() {
                     setToken={setToken}
                     />}
                     />
-            <Route path='/studentprofile' element={<StudentProfile/>} />
+            <Route path='/studentprofile' element={token ? <StudentProfile/> : <Login setToken={setToken} />} />
+            <Route path='/accounts' element={token ? <Accounts/> : <Login setToken={setToken} />} />
         </Routes>
     </Router>
 
