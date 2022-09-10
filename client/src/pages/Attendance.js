@@ -38,10 +38,7 @@ const Attendance = () =>{
   return (
     <div>
        <h3>Input Attendance</h3>
-       {attendances ? attendances : 'There is no attendance data available'}
        <br />
-       <button onClick={createAttendance}>Add attendance</button>
-
        <br /> 
 
        {attendances ? <AttendanceTable/>: "I'm sorry all your efforts have gone to waste :'("}
