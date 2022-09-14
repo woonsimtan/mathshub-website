@@ -1,7 +1,9 @@
 const express = require('express');
 const path = require('path');
 
-const cors = require('cors')
+const cors = require('cors');
+
+// const jose = require('jose');
 
 const app = express();
 const port = 3001;
@@ -96,10 +98,14 @@ app.use('/login', (req, res) => {
   accountModel.accountLogin(req.body)
       .then((response) => {
         if (response === "Logged in successfully!") {
+          let expiryDate = new Date();
+          // change this to getHours + 24 when fully functioning
+          expiryDate.setMinutes(expiryDate.getMinutes() + 1);
           res.send({
             // need to change this
             token: 'test123',
-            username: req.body['username']
+            username: req.body['username'],
+            expiry: expiryDate
           });
         } else {
           res.status(500).send(response);
