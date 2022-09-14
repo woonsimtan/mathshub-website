@@ -2,40 +2,6 @@ import React , {useState, useEffect} from 'react';
 import '../Table.css';
 
 const AttendanceTable= () =>{
-  const [data, setData] = useState(false);
-  useEffect(() => {
-      getData();
-  }, []);
-  function getData() {
-      fetch('http://localhost:3001/attendance')
-      .then(response => {
-          return response.text();
-      })
-      .then(data => {
-          setData(data);
-      });
-  }
-  function createAttendance() {
-    let username = prompt('Enter username');
-    let date = prompt('Enter date');
-    let attended = prompt('Enter 0/1/l');
-    let comment = prompt('Comments');
-    fetch('http://localhost:3001/attendanceadd', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({username, date, attended, comment}),
-    })
-      .then(response => {
-        return response.text();
-      })
-      .then(data => {
-        alert(data);
-        getData();
-        formatJSONData();
-      });
-  }
 
   const [students, setStudents] = useState(false);
   useEffect(() =>{
@@ -49,14 +15,37 @@ const AttendanceTable= () =>{
           return response.text();
       })
       .then(data => {
-          setStudents(data);
+
+          var studentArray = [];
+
+          const studentData = JSON.parse(data);
+     
+          studentData.forEach(obj =>{
+            studentArray.push(obj.username);
+          })
+
+          setStudents(studentArray);
       });
   }
 
-  const [body, setBody] = useState(false);
+
+  const [data, setData] = useState(false);
   useEffect(() => {
-    formatJSONData();
-  }, [] )
+      getData();
+  }, [data]);
+
+  function getData() {
+      fetch('http://localhost:3001/attendance')
+      .then(response => {
+          return response.text();
+      })
+      .then(data => {
+          const attendanceData = JSON.parse(data);
+
+          setData(formatJSONData(attendanceData));
+      });
+  }
+
   
   function stringToDate(dateString){
     var year = parseInt(dateString.slice(0,4));
@@ -102,42 +91,32 @@ const AttendanceTable= () =>{
   }
 
 
-  function formatJSONData() {
-    console.log("milepoint 1")
+  function formatJSONData(attendanceData) {
+    // console.log("milepoint 1")
     var formattedData = [];
-    var studentArray = [];
 
-    console.log("milepoint 2")
+    // console.log("milepoint 2")
   
-    if (data !== false && students !== false) {
-
-      const studentData = JSON.parse(students);
-      
-      studentData.forEach(obj =>{
-        studentArray.push(obj.username);
-      })
-
-      const attendanceData = JSON.parse(data);
-
+    if (students !== false) {
        
       
-      let filteredData = attendanceData.filter(row => studentArray.includes(row.username));
+      let filteredData = attendanceData.filter(row => students.includes(row.username));
       // console.log(dates);
       // filteredData.forEach(row => console.log(row.date));
       filteredData = filteredData.filter(row => dates.includes(row.date) );
-      console.log("milepoint 3")
+      // console.log("milepoint 3")
 
 
       // console.log(filteredData);
 
-      for (let i = 0; i < studentArray.length; i++){
-        let tempStudentAttendance = [studentArray[i]];
+      for (let i = 0; i < students.length; i++){
+        let tempStudentAttendance = [students[i]];
         // console.log('222222222222222222222222')
-        console.log(studentArray[i]);
-        let studentFilteredData = filteredData.filter(row => row.username === studentArray[i]);
-        console.log(studentFilteredData);
-        let student = studentArray[i];
-        console.log(student);
+        // console.log(students[i]);
+        let studentFilteredData = filteredData.filter(row => row.username === students[i]);
+        // console.log(studentFilteredData);
+        let student = students[i];
+        // console.log(student);
       
 
         for (let j = 0; j < dates.length; j++){
@@ -146,57 +125,31 @@ const AttendanceTable= () =>{
             var button = <button data-value={student} value={formatDateToInsert(dates[j])} onClick={checkWorking}> </button>
             tempStudentAttendance.push(button);
           } else {
-            console.log(workingdate[0].attended);
+            // console.log(workingdate[0].attended);
             tempStudentAttendance.push(workingdate[0].attended);
           }
         }
         // console.log("hi")
-        console.log(tempStudentAttendance);
+        // console.log(tempStudentAttendance);
         formattedData.push(tempStudentAttendance)
 
 
       }
-      console.log("milepoint 4")
+      // console.log("milepoint 4")
 
       console.log(formattedData)
-
-      
-
-      
-
     }
-    setBody(formattedData);
-
-    // return formattedData;
-
-
+    return formattedData;
   }
 
   var dates  = getDates();
   var headings = ["Students"].concat(dates);
-  // var body = [['a', '1', '1', '1'],
-  //             ['a', '1', '1', '1']]
 
-  // var body = formatJSONData();
-  
-  // console.log(body);
-
-  // const checkWorking = event =>{
-  //   event.preventDefault()
-  //   console.log(event.target.value);
-  //   alert('you have pushed a button')
-  //   // let attended = prompt('Enter 0/1/l');
-  //   // let comment = prompt('Comments');
-  //   // alert(attended + " " + comment)
-  //   alert(event.target.value);
-  
-  // }
 
   const checkWorking = event =>{
     event.preventDefault()
     // console.log(event.target.getAttribute("data-value"));
     // console.log(event.target.value);
-    alert('you have pushed a button')
     let attended = prompt('Enter 0/1/l');
     let comment = prompt('Comments');
     let username = event.target.getAttribute("data-value");
@@ -214,22 +167,16 @@ const AttendanceTable= () =>{
       .then(data => {
         alert(data);
         getData();
-        formatJSONData();
       });
     alert('added');
+
 
   
   }
 
-  if (body === false){
-    formatJSONData();
-  }
-
-
-
   return (
   <div>
-    {students? students : "No student data was loaded"}
+    {students ? students : "No student data was loaded"}
     <table id = "AttendanceTable"> 
     <thead> 
       <tr> 
@@ -238,7 +185,7 @@ const AttendanceTable= () =>{
     </thead>
     <tbody>
       {/* {body ? body.map((row, i) => <tr key={i}>{row.map((val, j) => <td key={j}><button onClick = {checkWorking} >{val}</button></td>)}</tr>) : null} */}
-      {body ? body.map((row, i) => <tr key={i}>{row.map((val, j) => <td key={j}>{val}</td>)}</tr>) : null}
+      {data ? data.map((row, i) => <tr key={i}>{row.map((val, j) => <td key={j}>{val}</td>)}</tr>) : null}
 
       {/* {body ? body.map((row, i) => <tr>{row.map((val, i) => <td key={i}>{val}</td>)}</tr>) : null} */}
       
@@ -246,7 +193,6 @@ const AttendanceTable= () =>{
 
     </tbody> 
     </table>
-    <button onClick={createAttendance}>Add attendance</button>
 
 
   </div>

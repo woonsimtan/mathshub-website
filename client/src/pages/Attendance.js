@@ -15,26 +15,7 @@ const Attendance = () =>{
             setAttendances(data);
         });
     }
-    function createAttendance() {
-        let username = prompt('Enter username');
-        let date = prompt('Enter date');
-        let attended = prompt('Enter 0/1/l');
-        let comment = prompt('Comments');
-        fetch('http://localhost:3001/attendanceadd', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({username, date, attended, comment}),
-        })
-          .then(response => {
-            return response.text();
-          })
-          .then(data => {
-            alert(data);
-            getAttendance();
-          });
-      }
+   
   return (
     <div>
        <h3>Input Attendance</h3>
