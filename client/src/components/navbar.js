@@ -12,8 +12,14 @@ const Navbar= () =>{
       <Link to="/about">About</Link>
     </li>
     <li>
-      <Link to="/login">Login</Link>
+      <Link to="/studentprofile">Profile</Link>
     </li>
+    <li>
+      <Link to="/accounts">Accounts</Link>
+    </li>
+    {/* <li>
+      <Link to="/login">Login</Link>
+    </li> */}
   </div>
   );
 }

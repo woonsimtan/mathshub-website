@@ -1,12 +1,30 @@
 const express = require('express');
 const path = require('path');
 
+const cors = require('cors');
+
+const rateLimit = require('express-rate-limit');
+
+const limiter = rateLimit({
+	windowMs: 15 * 60 * 1000, // 15 minutes
+	max: 100, // Limit each IP to 100 requests per `window` (here, per 15 minutes)
+	standardHeaders: true, // Return rate limit info in the `RateLimit-*` headers
+	legacyHeaders: false, // Disable the `X-RateLimit-*` headers
+});
+
+// const jose = require('jose');
+
 const app = express();
 const port = 3001;
 
 const accountModel = require('./account_model');
 
 app.use(express.json());
+app.use(cors());
+
+// Apply the rate limiting middleware to all requests
+app.use(limiter);
+
 app.use(function(req, res, next) {
   res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
   res.setHeader('Access-Control-Allow-Methods', 'GET,POST,PUT,DELETE,OPTIONS');
@@ -14,6 +32,7 @@ app.use(function(req, res, next) {
       'Content-Type, Access-Control-Allow-Headers');
   next();
 });
+
 
 app.get('/accounts', (req, res) => {
   accountModel.getAccounts()
@@ -75,15 +94,42 @@ app.delete('/students/del/:username', (req, res) => {
       });
 });
 
-app.post('/login', (req, res) => {
+// app.post('/login', (req, res) => {
+//   accountModel.accountLogin(req.body)
+//       .then((response) => {
+//         res.status(200).send(response);
+//       })
+//       .catch((error) => {
+//         res.status(500).send(error);
+//       });
+// });
+
+
+
+app.use('/login', (req, res) => {
   accountModel.accountLogin(req.body)
       .then((response) => {
-        res.status(200).send(response);
+        if (response === "Logged in successfully!") {
+          let expiryDate = new Date();
+          // change this to getHours + 24 when fully functioning
+          expiryDate.setMinutes(expiryDate.getMinutes() + 1);
+          res.send({
+            // need to change this
+            token: 'test123',
+            username: req.body['username'],
+            expiry: expiryDate
+          });
+        } else {
+          res.status(500).send(response);
+        }
+        
       })
       .catch((error) => {
         res.status(500).send(error);
       });
+  
 });
+
 
 app.post('/studentprofile', (req, res) => {
   accountModel.getStudentProfile(req.body)
