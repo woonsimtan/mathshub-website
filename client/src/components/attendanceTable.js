@@ -56,18 +56,39 @@ const AttendanceTable= () =>{
 
 
   function getDates() {
-    var dateArray = [];
-    var currentDate = stringToDate('2022-07-14');
-    while (currentDate <= stringToDate('2022-08-11')) {
-        dateArray.push((new Date(currentDate)).toISOString());
-        currentDate.setDate(currentDate.getDate()+7);
+    let currentDate = new Date()
+    currentDate.setHours(0);
+    currentDate.setMinutes(0);
+    currentDate.setSeconds(0);
+    currentDate.setMilliseconds(0);
+    while (currentDate.getDay() != 0){
+      currentDate.setDate(currentDate.getDate() -1)
     }
-    return dateArray;
+    
+    var dateArray = [];
+    while(dateArray.length < 6) {
+        dateArray.push((new Date(currentDate)).toISOString());
+        currentDate.setDate(currentDate.getDate()-7);
+
+    } 
+    return dateArray.reverse();
 
   }
 
+  // function getDates() {
+   
+  //   var dateArray = [];
+  //   var currentDate = stringToDate('2022-07-14');
+  //   while (currentDate <= stringToDate('2022-08-11')) {
+  //       dateArray.push((new Date(currentDate)).toISOString());
+  //       currentDate.setDate(currentDate.getDate()+7);
+  //   }
+  //   return dateArray;
+
+  // }
+
   function formatDate(date){
-    let day = parseInt(date.slice(8,10)) + 1;
+    let day = parseInt(date.slice(8,10));
     if (day < 10 ){
       day = "0" + (parseInt(date.slice(8,10)) + 1).toString();
 
@@ -83,7 +104,7 @@ const AttendanceTable= () =>{
     if (day < 10 ){
       day = "0" + (parseInt(date.slice(8,10)) + 1).toString();
 
-    } 
+    }
     let month = date.slice(5,7);
     let year = date.slice(0,4);
 
@@ -92,68 +113,49 @@ const AttendanceTable= () =>{
 
 
   function formatJSONData(attendanceData) {
-    // console.log("milepoint 1")
-    var formattedData = [];
 
-    // console.log("milepoint 2")
+    var formattedData = [];
   
     if (students !== false) {
        
-      
       let filteredData = attendanceData.filter(row => students.includes(row.username));
-      // console.log(dates);
-      // filteredData.forEach(row => console.log(row.date));
+
       filteredData = filteredData.filter(row => dates.includes(row.date) );
-      // console.log("milepoint 3")
 
-
-      // console.log(filteredData);
 
       for (let i = 0; i < students.length; i++){
+
         let tempStudentAttendance = [students[i]];
-        // console.log('222222222222222222222222')
-        // console.log(students[i]);
         let studentFilteredData = filteredData.filter(row => row.username === students[i]);
-        // console.log(studentFilteredData);
         let student = students[i];
-        // console.log(student);
       
 
         for (let j = 0; j < dates.length; j++){
           let workingdate = studentFilteredData.filter(row => row.date === dates[j]);
           if (workingdate.length === 0){
-            var button = <button data-value={student} value={formatDateToInsert(dates[j])} onClick={checkWorking}> </button>
+            var button = <button data-value={student} value={formatDateToInsert(dates[j])} onClick={createAttendance}> </button>
             tempStudentAttendance.push(button);
           } else {
-            // console.log(workingdate[0].attended);
+
             tempStudentAttendance.push(workingdate[0].attended);
           }
         }
-        // console.log("hi")
-        // console.log(tempStudentAttendance);
+
         formattedData.push(tempStudentAttendance)
 
-
       }
-      // console.log("milepoint 4")
-
-      console.log(formattedData)
     }
     return formattedData;
   }
 
-  var dates  = getDates();
-  var headings = ["Students"].concat(dates);
-
-
-  const checkWorking = event =>{
+  const createAttendance = event => {
     event.preventDefault()
-    // console.log(event.target.getAttribute("data-value"));
-    // console.log(event.target.value);
+
     let attended = prompt('Enter 0/1/l');
     let comment = prompt('Comments');
     let username = event.target.getAttribute("data-value");
     let date = event.target.value;
+    
     fetch('http://localhost:3001/attendanceadd', {
       method: 'POST',
       headers: {
@@ -168,32 +170,31 @@ const AttendanceTable= () =>{
         alert(data);
         getData();
       });
-    alert('added');
 
-
-  
   }
 
+  
+  var dates  = getDates();
+  var headings = ["Students"].concat(dates);
+
   return (
+
   <div>
-    {students ? students : "No student data was loaded"}
+
     <table id = "AttendanceTable"> 
-    <thead> 
-      <tr> 
-        {headings.map((head, i) => <th key={i}>{head !== 'Students' ? formatDate(head): head} </th>)}
-      </tr>
-    </thead>
-    <tbody>
-      {/* {body ? body.map((row, i) => <tr key={i}>{row.map((val, j) => <td key={j}><button onClick = {checkWorking} >{val}</button></td>)}</tr>) : null} */}
-      {data ? data.map((row, i) => <tr key={i}>{row.map((val, j) => <td key={j}>{val}</td>)}</tr>) : null}
+      <thead> 
+        <tr> 
 
-      {/* {body ? body.map((row, i) => <tr>{row.map((val, i) => <td key={i}>{val}</td>)}</tr>) : null} */}
-      
+          {headings.map((head, i) => <th key={i}>{head !== 'Students' ? formatDate(head): head} </th>)}
 
+        </tr>
+      </thead>
+      <tbody>
 
-    </tbody> 
+        {data ? data.map((row, i) => <tr key={i}>{row.map((val, j) => <td key={j}>{val}</td>)}</tr>) : null}   
+
+      </tbody> 
     </table>
-
 
   </div>
   );
