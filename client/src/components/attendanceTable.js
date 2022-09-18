@@ -42,18 +42,9 @@ const AttendanceTable= () =>{
       .then(data => {
           const attendanceData = JSON.parse(data);
 
-          setData(formatJSONData(attendanceData));
+          setData(formatData(attendanceData));
       });
   }
-
-  
-  function stringToDate(dateString){
-    var year = parseInt(dateString.slice(0,4));
-    var month = parseInt(dateString.slice(5,7));
-    var date = parseInt(dateString.slice(8,10));
-    return new Date(year, month, date);
-  }
-
 
   function getDates() {
     let currentDate = new Date()
@@ -61,7 +52,7 @@ const AttendanceTable= () =>{
     currentDate.setMinutes(0);
     currentDate.setSeconds(0);
     currentDate.setMilliseconds(0);
-    while (currentDate.getDay() != 0){
+    while (currentDate.getDay() !== 0){
       currentDate.setDate(currentDate.getDate() -1)
     }
     
@@ -75,17 +66,6 @@ const AttendanceTable= () =>{
 
   }
 
-  // function getDates() {
-   
-  //   var dateArray = [];
-  //   var currentDate = stringToDate('2022-07-14');
-  //   while (currentDate <= stringToDate('2022-08-11')) {
-  //       dateArray.push((new Date(currentDate)).toISOString());
-  //       currentDate.setDate(currentDate.getDate()+7);
-  //   }
-  //   return dateArray;
-
-  // }
 
   function formatDate(date){
     let day = parseInt(date.slice(8,10));
@@ -110,9 +90,9 @@ const AttendanceTable= () =>{
 
     return year + "-" + month + "-" + day;
   }
+  
 
-
-  function formatJSONData(attendanceData) {
+  function formatData(attendanceData) {
 
     var formattedData = [];
   
@@ -151,25 +131,31 @@ const AttendanceTable= () =>{
   const createAttendance = event => {
     event.preventDefault()
 
-    let attended = prompt('Enter 0/1/l');
+    let attended = prompt('Enter 0/1/l').toLowerCase();
     let comment = prompt('Comments');
     let username = event.target.getAttribute("data-value");
     let date = event.target.value;
-    
-    fetch('http://localhost:3001/attendanceadd', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({username, date, attended, comment}),
-    })
-      .then(response => {
-        return response.text();
+
+    if (attended === '1' || attended === '0' || attended === 'l'){
+      fetch('http://localhost:3001/attendanceadd', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({username, date, attended, comment}),
       })
-      .then(data => {
-        alert(data);
-        getData();
-      });
+        .then(response => {
+          return response.text();
+        })
+        .then(data => {
+          alert(data);
+          getData();
+        });
+    } else {
+      alert("You have not entered a valid record.")
+    }
+    
+
 
   }
 
